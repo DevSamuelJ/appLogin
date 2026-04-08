@@ -1,12 +1,12 @@
 package dev.samuelj.usuariosapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import dev.samuelj.usuariosapi.model.Usuario;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class UsuarioController {
@@ -16,6 +16,16 @@ public class UsuarioController {
     @GetMapping("/usuarios")
     public List<Usuario> listarUsuarios() {
         return usuarios;
+    }
+
+    @GetMapping("/usuarios/{id}")
+    public Usuario buscarUsuarioPorId(@PathVariable int id){
+        for (Usuario usuario: usuarios){
+            if(usuario.getId() == id){
+                return usuario;
+            }
+        }
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
     }
 
     @PostMapping("/usuarios")
