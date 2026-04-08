@@ -34,6 +34,41 @@ public class UsuarioController {
         usuarios.add(usuario);
         return usuario;
     }
+    @DeleteMapping("/usuarios/{id}")
+    public Usuario removerUsuario(@PathVariable int id){
+        Usuario usuarioRem = null;
+        for (Usuario usuario: usuarios){
+            if (usuario.getId() == id){
+                usuarioRem = usuario;
+                break;
+            }
+        }if (usuarioRem == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+            usuarios.remove(usuarioRem);
+            return usuarioRem;
+
+    }
+
+    @PutMapping("/usuarios/{id}")
+    public Usuario modificarUsuario(@RequestBody String atributo, @RequestBody String novoValor, @PathVariable int id){
+        Usuario usuarioMod = null;
+        for (Usuario usuario: usuarios){
+            if (usuario.getId() == id){
+                usuarioMod = usuario;
+                break;
+            }
+        }if (usuarioMod == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+            switch (atributo){
+                case "nome" -> usuarioMod.setNome(novoValor);
+
+    }
+            return usuarioMod;
+    }
+
+
 
 
 }

@@ -16,6 +16,18 @@ public class Usuario {
         this.profissao = profissao;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public void setProfissao(String profissao) {
+        this.profissao = profissao;
+    }
+
     public int getId() {
         return id;
     }
