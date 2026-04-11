@@ -1,5 +1,6 @@
 package dev.samuelj.usuariosapi.controller;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +52,21 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuarios/{id}")
-
+    public Usuario modificarUsuarioInteiro(@PathVariable int id,  @RequestBody Usuario dadosAtualizados){
+        Usuario usuarioMod = null;
+        for (Usuario usuario: usuarios){
+            if (usuario.getId() == id){
+                usuarioMod = usuario;
+                break;
+            }
+        }if (usuarioMod == null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+            usuarioMod.setNome(dadosAtualizados.getNome());
+            usuarioMod.setIdade(dadosAtualizados.getIdade());
+            usuarioMod.setProfissao(dadosAtualizados.getProfissao());
+            return usuarioMod;
+    }
 
 
 
