@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.controller;
 
-import jakarta.websocket.server.PathParam;
+import dev.samuelj.usuariosapi.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,12 +12,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class UsuarioController {
+
+    @Autowired
+    private UsuarioService usuarioService;
+
     private int contadorId = 1;
     private List<Usuario> usuarios = new ArrayList<>();
 
     @GetMapping("/usuarios")
     public List<Usuario> listarUsuarios() {
-        return usuarios;
+        return usuarioService.listarUsuarios();
     }
 
     @GetMapping("/usuarios/{id}")
