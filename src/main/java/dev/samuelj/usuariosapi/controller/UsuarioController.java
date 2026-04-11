@@ -2,22 +2,16 @@ package dev.samuelj.usuariosapi.controller;
 
 import dev.samuelj.usuariosapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 import dev.samuelj.usuariosapi.model.Usuario;
-import org.springframework.web.server.ResponseStatusException;
+
 
 @RestController
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
-    private int contadorId = 1;
-    private List<Usuario> usuarios = new ArrayList<>();
 
     @GetMapping("/usuarios")
     public List<Usuario> listarUsuarios() {
@@ -26,12 +20,7 @@ public class UsuarioController {
 
     @GetMapping("/usuarios/{id}")
     public Usuario buscarUsuarioPorId(@PathVariable int id){
-        for (Usuario usuario: usuarios){
-            if(usuario.getId() == id){
-                return usuario;
-            }
-        }
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+       return usuarioService.buscaPorID(id);
     }
 
     @PostMapping("/usuarios")
@@ -41,38 +30,11 @@ public class UsuarioController {
 
     @DeleteMapping("/usuarios/{id}")
     public Usuario removerUsuario(@PathVariable int id){
-        Usuario usuarioRem = null;
-        for (Usuario usuario: usuarios){
-            if (usuario.getId() == id){
-                usuarioRem = usuario;
-                break;
-            }
-        }if (usuarioRem == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
-        }
-            usuarios.remove(usuarioRem);
-            return usuarioRem;
-
+            return usuarioService.removerUsuario(id);
     }
 
     @PutMapping("/usuarios/{id}")
     public Usuario modificarUsuarioInteiro(@PathVariable int id,  @RequestBody Usuario dadosAtualizados){
-        Usuario usuarioMod = null;
-        for (Usuario usuario: usuarios){
-            if (usuario.getId() == id){
-                usuarioMod = usuario;
-                break;
-            }
-        }if (usuarioMod == null){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
-        }
-            usuarioMod.setNome(dadosAtualizados.getNome());
-            usuarioMod.setIdade(dadosAtualizados.getIdade());
-            usuarioMod.setProfissao(dadosAtualizados.getProfissao());
-            return usuarioMod;
+            return usuarioService.atualizarUsuario(id, dadosAtualizados);
     }
-
-
-
-
 }
