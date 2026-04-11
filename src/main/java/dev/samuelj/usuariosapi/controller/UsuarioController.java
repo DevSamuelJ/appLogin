@@ -36,10 +36,9 @@ public class UsuarioController {
 
     @PostMapping("/usuarios")
     public Usuario adicionarUsuario(@RequestBody Usuario usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
-        usuario.setId(contadorId++);
-        usuarios.add(usuario);
-        return usuario;
+        return usuarioService.adicionarUsuario(usuario);
     }
+
     @DeleteMapping("/usuarios/{id}")
     public Usuario removerUsuario(@PathVariable int id){
         Usuario usuarioRem = null;

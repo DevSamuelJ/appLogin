@@ -14,4 +14,9 @@ public class UsuarioService {
     public List<Usuario> listarUsuarios() {
         return usuarios;
     }
+    public Usuario adicionarUsuario(Usuario usuario){
+        usuario.setId(contadorId++);
+        usuarios.add(usuario);
+        return usuario;
+    }
 }
