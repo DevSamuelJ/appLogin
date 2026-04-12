@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 @Entity
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String nome;
     private int idade;
     private String profissao;
