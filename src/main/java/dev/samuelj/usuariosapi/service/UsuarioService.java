@@ -1,19 +1,28 @@
 package dev.samuelj.usuariosapi.service;
 
 import dev.samuelj.usuariosapi.model.Usuario;
+import dev.samuelj.usuariosapi.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 @Service
 public class UsuarioService {
-    private int contadorId = 1; // São variáveis de estado da classe.
-    private List<Usuario> usuarios = new ArrayList<>(); // Variável de estado.
 
-    public List<Usuario> listarUsuarios() {
-        return usuarios;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+//    private int contadorId = 1; // São variáveis de estado da classe.
+//    private List<Usuario> usuarios = new ArrayList<>(); // Variável de estado.
+
+    public Usuario listarUsuarios() {
+        return usuarioRepository.findAll();
     }
     public Usuario adicionarUsuario(Usuario usuario){
         usuario.setId(contadorId++);
