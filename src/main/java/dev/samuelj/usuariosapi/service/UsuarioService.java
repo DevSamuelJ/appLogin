@@ -27,16 +27,16 @@ public class UsuarioService {
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
+
     public Usuario adicionarUsuario(Usuario usuario){
-        usuarioRepository.save(usuario);
-        return usuario;
+        return usuarioRepository.save(usuario);
     }
 
-//    public Usuario removerUsuario(int id){
-//        Usuario usuarioRem = buscaPorID(id);
-//        usuarios.remove(usuarioRem);
-//        return usuarioRem;
-//    }
+    public Usuario removerUsuario(int id){
+        Usuario usuarioRem = buscaPorID(id);
+        usuarioRepository.delete(usuarioRem);
+        return usuarioRem;
+    }
 
     public Usuario buscaPorID(int id){
             return usuarioRepository.findById(id)
