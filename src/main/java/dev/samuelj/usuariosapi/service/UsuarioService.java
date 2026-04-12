@@ -15,38 +15,32 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
 //    private int contadorId = 1; // São variáveis de estado da classe.
 //    private List<Usuario> usuarios = new ArrayList<>(); // Variável de estado.
 
-    public Usuario listarUsuarios() {
+    public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
     public Usuario adicionarUsuario(Usuario usuario){
-        usuario.setId(contadorId++);
-        usuarios.add(usuario);
+        usuarioRepository.save(usuario);
         return usuario;
     }
 
-    public Usuario removerUsuario(int id){
-        Usuario usuarioRem = buscaPorID(id);
-        usuarios.remove(usuarioRem);
-        return usuarioRem;
-    }
+//    public Usuario removerUsuario(int id){
+//        Usuario usuarioRem = buscaPorID(id);
+//        usuarios.remove(usuarioRem);
+//        return usuarioRem;
+//    }
 
     public Usuario buscaPorID(int id){
-        Usuario usuarioBuscado = null;
-        for (Usuario usuario: usuarios){
-            if (usuario.getId() == id){
-                usuarioBuscado = usuario;
-                break;
-            }
-        }if (usuarioBuscado == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
-        }   return usuarioBuscado;
-
+            return usuarioRepository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
     public Usuario atualizarUsuario(int id, Usuario dadosAtualizados){
