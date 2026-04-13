@@ -1,18 +1,28 @@
 package dev.samuelj.usuariosapi.model;
 
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
-    private int idade;
-    private String profissao;
 
+    @NotNull(message = "Idade é obrigatória")
+    @Min(value = 18, message = "O usuário deve ser maior ou igual a 18 anos")
+    private Integer idade;
+
+    @NotBlank(message = "Profissão é obrigatória")
+    private String profissao;
 
     public Usuario() {
     }
@@ -35,7 +45,7 @@ public class Usuario {
         this.profissao = profissao;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

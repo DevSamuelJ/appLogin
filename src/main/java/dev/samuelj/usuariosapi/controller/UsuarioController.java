@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.controller;
 
 import dev.samuelj.usuariosapi.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -24,7 +25,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuarios")
-    public Usuario adicionarUsuario(@RequestBody Usuario usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
+    public Usuario adicionarUsuario(@Valid  @RequestBody Usuario usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
         return usuarioService.adicionarUsuario(usuario);
     }
 
@@ -34,7 +35,7 @@ public class UsuarioController {
 //    }
 
     @PutMapping("/usuarios/{id}")
-    public Usuario modificarUsuarioInteiro(@PathVariable int id,  @RequestBody Usuario dadosAtualizados){
+    public Usuario modificarUsuarioInteiro(@Valid @PathVariable int id,  @RequestBody Usuario dadosAtualizados){
             return usuarioService.atualizarUsuario(id, dadosAtualizados);
     }
 }
