@@ -35,5 +35,7 @@ public class ErroResponse {
         return timestamp;
     }
 
-
+    public List<String> getErros() {
+        return erros;
+    }
 }
