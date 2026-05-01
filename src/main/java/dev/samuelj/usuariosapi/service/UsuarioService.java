@@ -26,7 +26,10 @@ public class UsuarioService {
     }
 
     public Usuario adicionarUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
+        }
+            return usuarioRepository.save(usuario);
     }
 
     public Usuario removerUsuario(int id){
@@ -47,4 +50,5 @@ public class UsuarioService {
             usuarioMod.setProfissao(dadosAtualizados.getProfissao());
             return usuarioMod;
     }
+
 }
