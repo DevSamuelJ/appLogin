@@ -11,11 +11,17 @@ public class ErroResponse {
     private LocalDateTime timestamp;
     private List<String> erros = new ArrayList<>();
 
-    public ErroResponse(int status, String mensagem) {
+    public ErroResponse(int status, String mensagem, List<String> erros) {
         this.status = status;
         this.mensagem = mensagem;
         this.timestamp = LocalDateTime.now();
+        this.erros = erros;
     }
+    public ErroResponse(int status, String mensagem) {
+    this.status = status;
+    this.mensagem = mensagem;
+    this.timestamp = LocalDateTime.now();
+}
 
     public int getStatus() {
         return status;
@@ -28,4 +34,6 @@ public class ErroResponse {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+
+
 }
