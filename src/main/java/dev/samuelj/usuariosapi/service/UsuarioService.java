@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.Optional;
 
 
 @Service
@@ -51,4 +50,17 @@ public class UsuarioService {
             return usuarioMod;
     }
 
+
+    public Usuario login(String email, String senha) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        if (usuario.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email não encontrado");
+        }
+
+        Usuario usuarioReal = usuario.get();
+        if(!usuarioReal.getSenha().equals(senha)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha incorreta");
+        }
+            return usuarioReal;
+}
 }
