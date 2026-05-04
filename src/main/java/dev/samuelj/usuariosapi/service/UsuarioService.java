@@ -1,5 +1,6 @@
 package dev.samuelj.usuariosapi.service;
 
+import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
 import dev.samuelj.usuariosapi.model.Usuario;
 import dev.samuelj.usuariosapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class UsuarioService {
             return usuarioRepository.findById(id)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
+
 
     public Usuario atualizarUsuario(int id, Usuario dadosAtualizados){
             Usuario usuarioMod = buscaPorID(id);

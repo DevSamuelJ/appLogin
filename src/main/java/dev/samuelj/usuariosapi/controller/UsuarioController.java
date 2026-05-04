@@ -1,10 +1,13 @@
 package dev.samuelj.usuariosapi.controller;
 
+import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
 import dev.samuelj.usuariosapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Locale;
+
 import dev.samuelj.usuariosapi.model.Usuario;
 
 
@@ -37,5 +40,10 @@ public class UsuarioController {
     @PutMapping("/usuarios/{id}")
     public Usuario modificarUsuarioInteiro(@Valid @PathVariable int id,  @RequestBody Usuario dadosAtualizados){
             return usuarioService.atualizarUsuario(id, dadosAtualizados);
+    }
+
+    @PostMapping("/login")
+    public Usuario login(@Valid @RequestBody LoginRequestDTO request) {
+        return usuarioService.login(request.getEmail(), request.getSenha());
     }
 }
