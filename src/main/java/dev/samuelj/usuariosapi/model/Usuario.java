@@ -34,10 +34,13 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nome, int idade, String profissao) {
+    public Usuario(String nome, int idade, String profissao, String email, String senha) {
         this.nome = nome;
         this.idade = idade;
         this.profissao = profissao;
+        this.email = email;
+        this.senha = senha;
+
     }
 
     public void setNome(String nome) {

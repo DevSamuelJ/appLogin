@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.controller;
 
 import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
+import dev.samuelj.usuariosapi.dto.UsuarioRequestDTO;
 import dev.samuelj.usuariosapi.dto.UsuarioResponseDTO;
 import dev.samuelj.usuariosapi.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuarios")
-    public Usuario adicionarUsuario(@Valid  @RequestBody Usuario usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
+    public UsuarioRequestDTO adicionarUsuario(@Valid  @RequestBody UsuarioRequestDTO usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
         return usuarioService.adicionarUsuario(usuario);
     }
 

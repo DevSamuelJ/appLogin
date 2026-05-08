@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.service;
 
 import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
+import dev.samuelj.usuariosapi.dto.UsuarioRequestDTO;
 import dev.samuelj.usuariosapi.dto.UsuarioResponseDTO;
 import dev.samuelj.usuariosapi.model.Usuario;
 import dev.samuelj.usuariosapi.repository.UsuarioRepository;
@@ -26,11 +27,18 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario adicionarUsuario(Usuario usuario){
+    public Usuario adicionarUsuario(UsuarioRequestDTO usuario){
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
         }
-            return usuarioRepository.save(usuario);
+
+            return usuarioRepository.save(new Usuario(
+                    usuario.getNome(),
+                    usuario.getIdade(),
+                    usuario.getProfissao(),
+                    usuario.getEmail(),
+                    usuario.getSenha()
+            ));
     }
 
     public Usuario removerUsuario(int id){
