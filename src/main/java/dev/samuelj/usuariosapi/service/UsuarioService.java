@@ -27,18 +27,24 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario adicionarUsuario(UsuarioRequestDTO usuario){
+    public UsuarioResponseDTO adicionarUsuario(UsuarioRequestDTO usuario){
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
         }
-
-            return usuarioRepository.save(new Usuario(
+           Usuario usuarioSalvo = usuarioRepository.save(new Usuario(
                     usuario.getNome(),
                     usuario.getIdade(),
                     usuario.getProfissao(),
                     usuario.getEmail(),
                     usuario.getSenha()
             ));
+
+            return new UsuarioResponseDTO(
+                    usuarioSalvo.getNome(),
+                    usuarioSalvo.getEmail(),
+                    usuarioSalvo.getIdade(),
+                    usuarioSalvo.getProfissao()
+                    );
     }
 
     public Usuario removerUsuario(int id){
@@ -73,7 +79,6 @@ public class UsuarioService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha incorreta");
         }
             return new UsuarioResponseDTO(
-                usuarioReal.getId(),
                 usuarioReal.getNome(),
                 usuarioReal.getEmail(),
                 usuarioReal.getIdade(),

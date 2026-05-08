@@ -3,26 +3,17 @@ package dev.samuelj.usuariosapi.dto;
 public class UsuarioResponseDTO {
 
 
-    private Integer id;
+
     private String nome;
     private String email;
     private int idade;
     private String profissao;
 
-    public UsuarioResponseDTO(Integer id, String nome, String email, int idade, String profissao) {
-        this.id = id;
+    public UsuarioResponseDTO( String nome, String email, int idade, String profissao) {
         this.nome = nome;
         this.email = email;
         this.idade = idade;
         this.profissao = profissao;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {

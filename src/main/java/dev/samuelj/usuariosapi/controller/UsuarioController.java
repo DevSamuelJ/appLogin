@@ -30,7 +30,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuarios")
-    public UsuarioRequestDTO adicionarUsuario(@Valid  @RequestBody UsuarioRequestDTO usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
+    public UsuarioResponseDTO adicionarUsuario(@Valid  @RequestBody UsuarioRequestDTO usuario) { // Sem essa anotação @RequestBody, ele n vai saber que esse usuario veio do corpo da requisição e nem converter esse json em objeto Java.
         return usuarioService.adicionarUsuario(usuario);
     }
 
