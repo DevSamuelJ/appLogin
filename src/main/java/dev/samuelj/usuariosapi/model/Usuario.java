@@ -4,10 +4,11 @@ package dev.samuelj.usuariosapi.model;
 import dev.samuelj.usuariosapi.dto.UsuarioRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +43,10 @@ public class Usuario {
         this.email = email;
         this.senha = senha;
 
+    }
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     public void setNome(String nome) {
