@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.service;
 
 import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
+import dev.samuelj.usuariosapi.dto.UsuarioResponseDTO;
 import dev.samuelj.usuariosapi.model.Usuario;
 import dev.samuelj.usuariosapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UsuarioService {
     }
 
 
-    public Usuario login(String email, String senha) {
+    public UsuarioResponseDTO login(String email, String senha) {
         Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
         if (usuario.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email não encontrado");
@@ -63,6 +64,12 @@ public class UsuarioService {
         if(!usuarioReal.getSenha().equals(senha)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha incorreta");
         }
-            return usuarioReal;
+            return new UsuarioResponseDTO(
+                usuarioReal.getId(),
+                usuarioReal.getNome(),
+                usuarioReal.getEmail(),
+                usuarioReal.getIdade(),
+                usuarioReal.getProfissao()
+        );
 }
 }

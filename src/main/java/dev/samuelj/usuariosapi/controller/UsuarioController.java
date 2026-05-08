@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.controller;
 
 import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
+import dev.samuelj.usuariosapi.dto.UsuarioResponseDTO;
 import dev.samuelj.usuariosapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public Usuario login(@Valid @RequestBody LoginRequestDTO request) {
+    public UsuarioResponseDTO login(@Valid @RequestBody LoginRequestDTO request) {
         return usuarioService.login(request.getEmail(), request.getSenha());
     }
 }
