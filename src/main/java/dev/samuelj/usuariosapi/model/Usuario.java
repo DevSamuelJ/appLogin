@@ -1,6 +1,7 @@
 package dev.samuelj.usuariosapi.model;
 
 
+import dev.samuelj.usuariosapi.dto.UsuarioRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
