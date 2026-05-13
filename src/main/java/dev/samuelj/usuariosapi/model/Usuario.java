@@ -48,6 +48,15 @@ public class Usuario implements UserDetails{
     public String getUsername() {
         return this.email;
     }
+    @Override
+    public String getPasswaord() {
+        return this.senha;
+    }
+
+    public String getAuthorities(){
+        return this.nome;
+    }
+
 
     public void setNome(String nome) {
         this.nome = nome;
