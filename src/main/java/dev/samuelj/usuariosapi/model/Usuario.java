@@ -4,7 +4,12 @@ package dev.samuelj.usuariosapi.model;
 import dev.samuelj.usuariosapi.dto.UsuarioRequestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.Collections;
 
 
 @Entity
@@ -44,17 +49,20 @@ public class Usuario implements UserDetails{
         this.senha = senha;
 
     }
+
+
     @Override
     public String getUsername() {
         return this.email;
     }
     @Override
-    public String getPasswaord() {
+    public String getPassword() {
         return this.senha;
     }
 
-    public String getAuthorities(){
-        return this.nome;
+    @Override
+    public Collection<GrantedAuthority> getAuthorities(){
+        return Collections.emptyList();
     }
 
 
