@@ -1,5 +1,6 @@
 package dev.samuelj.usuariosapi.service;
 
+import dev.samuelj.usuariosapi.config.SecurityConfig;
 import dev.samuelj.usuariosapi.dto.LoginRequestDTO;
 import dev.samuelj.usuariosapi.dto.UsuarioRequestDTO;
 import dev.samuelj.usuariosapi.dto.UsuarioResponseDTO;
@@ -7,6 +8,7 @@ import dev.samuelj.usuariosapi.model.Usuario;
 import dev.samuelj.usuariosapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
@@ -18,10 +20,13 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, BCryptPasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
@@ -31,6 +36,7 @@ public class UsuarioService {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
         }
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
            Usuario usuarioSalvo = usuarioRepository.save(new Usuario(
                     usuario.getNome(),
                     usuario.getIdade(),
