@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,63 +33,65 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public UsuarioResponseDTO adicionarUsuario(UsuarioRequestDTO usuario){
+    public UsuarioResponseDTO adicionarUsuario(UsuarioRequestDTO usuario) {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já cadastrado");
         }
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-           Usuario usuarioSalvo = usuarioRepository.save(new Usuario(
-                    usuario.getNome(),
-                    usuario.getIdade(),
-                    usuario.getProfissao(),
-                    usuario.getEmail(),
-                    usuario.getSenha()
-            ));
+        Usuario usuarioSalvo = usuarioRepository.save(new Usuario(
+                usuario.getNome(),
+                usuario.getIdade(),
+                usuario.getProfissao(),
+                usuario.getEmail(),
+                usuario.getSenha()
+        ));
 
-            return new UsuarioResponseDTO(
-                    usuarioSalvo.getNome(),
-                    usuarioSalvo.getEmail(),
-                    usuarioSalvo.getIdade(),
-                    usuarioSalvo.getProfissao()
-                    );
+        return new UsuarioResponseDTO(
+                usuarioSalvo.getNome(),
+                usuarioSalvo.getEmail(),
+                usuarioSalvo.getIdade(),
+                usuarioSalvo.getProfissao()
+        );
     }
 
-    public Usuario removerUsuario(int id){
+    public Usuario removerUsuario(int id) {
         Usuario usuarioRem = buscaPorID(id);
         usuarioRepository.delete(usuarioRem);
         return usuarioRem;
     }
 
-    public Usuario buscaPorID(int id){
-            return usuarioRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+    public Usuario buscaPorID(int id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
 
-    public Usuario atualizarUsuario(int id, Usuario dadosAtualizados){
-            Usuario usuarioMod = buscaPorID(id);
-            usuarioMod.setNome(dadosAtualizados.getNome());
-            usuarioMod.setIdade(dadosAtualizados.getIdade());
-            usuarioMod.setProfissao(dadosAtualizados.getProfissao());
-            return usuarioMod;
+    public Usuario atualizarUsuario(int id, Usuario dadosAtualizados) {
+        Usuario usuarioMod = buscaPorID(id);
+        usuarioMod.setNome(dadosAtualizados.getNome());
+        usuarioMod.setIdade(dadosAtualizados.getIdade());
+        usuarioMod.setProfissao(dadosAtualizados.getProfissao());
+        return usuarioMod;
     }
 
 
     public UsuarioResponseDTO login(String email, String senha) {
-        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
-        if (usuario.isEmpty()){
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email); // busca o usuário pelo email.
+        if (usuario.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email não encontrado");
         }
-
         Usuario usuarioReal = usuario.get();
-        if(!usuarioReal.getSenha().equals(senha)){
+
+        boolean senhaValidada = passwordEncoder.matches(senha, usuarioReal.getSenha());
+
+        if (!senhaValidada) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha incorreta");
         }
-            return new UsuarioResponseDTO(
+        return new UsuarioResponseDTO(
                 usuarioReal.getNome(),
                 usuarioReal.getEmail(),
                 usuarioReal.getIdade(),
                 usuarioReal.getProfissao()
         );
-}
+    }
 }
