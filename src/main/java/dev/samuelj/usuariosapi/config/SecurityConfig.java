@@ -26,6 +26,12 @@ public class SecurityConfig {
                         // Libera a rota /login para o método POST apenas.
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
 
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+
                         // Exige autenticação para qualquer outra rota
                         .anyRequest().authenticated()
                 );
